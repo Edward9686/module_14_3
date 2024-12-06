@@ -6,23 +6,29 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
 
-api = ''
+api = '7911674612:AAExvB4TH5EZY2G_XJ6dKl1iWqqeieq9VAA'
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
+
 kb = ReplyKeyboardMarkup(resize_keyboard=True)
 kbi = InlineKeyboardMarkup()
-kbi2 = InlineKeyboardMarkup()
+kbi2 = InlineKeyboardMarkup(row_width=4, resize_keyboard=True)
+
 buttoni = InlineKeyboardButton(text='Рассчитать норму калорий', callback_data='Калории')
 buttoni1 = InlineKeyboardButton(text='Формулы рассчёта', callback_data='Формулы')
 
 button = KeyboardButton(text='Информация!')
 button2 = KeyboardButton(text='Расчитать')
 button3 = KeyboardButton(text='Купить')
+
+but1 = InlineKeyboardButton(text='Продукт 1', callback_data='product_buying')
+but2 = InlineKeyboardButton(text='Продукт 2', callback_data='product_buying')
+but3 = InlineKeyboardButton(text='Продукт 3', callback_data='product_buying')
+but4 = InlineKeyboardButton(text='Продукт 4', callback_data='product_buying')
+
 kb.add(button, button2, button3)
 kbi.add(buttoni, buttoni1)
-
-for i in range(1, 5):
-    kbi2.add(InlineKeyboardButton(f'Продукт {i}', callback_data='product_buying'))
+kbi2.add(but1, but2, but3, but4)
 
 
 @dp.message_handler(text='Купить')
@@ -31,16 +37,16 @@ async def handle_buy_button(message):
 
 
 async def get_buying_list(message):
-    product_info = 'Название: Product 1 | Описание: Обычный стандарт круглых таблеток. | Цена: 100 руб.'
+    product_info = 'Название: Продукт 1 | Описание: Обычный стандарт круглых таблеток. | Цена: 100 руб.'
     with open('1.png', 'rb') as img:
         await message.answer_photo(img, product_info)
-    product_info2 = 'Название: Product 2 | Описание: Интересные таблетки ввиде бобов. | Цена: 200 руб.'
+    product_info2 = 'Название: Продукт 2 | Описание: Интересные таблетки ввиде бобов. | Цена: 200 руб.'
     with open('2.jpg', 'rb') as img2:
         await message.answer_photo(img2, product_info2)
-    product_info3 = 'Название: Product 3 | Описание: Маленькие таблетки удобно пить. | Цена: 300 руб.'
+    product_info3 = 'Название: Продукт 3 | Описание: Маленькие таблетки удобно пить. | Цена: 300 руб.'
     with open('3.jpg', 'rb') as img3:
         await message.answer_photo(img3, product_info3)
-    product_info4 = 'Название: Product 4 | Описание: Самые эффективные таблетки даже цвет зеленый. | Цена: 400 руб.'
+    product_info4 = 'Название: Продукт 4 | Описание: Самые эффективные таблетки даже цвет зеленый. | Цена: 400 руб.'
     with open('4.jpg', 'rb') as img4:
         await message.answer_photo(img4, product_info4)
 
@@ -66,7 +72,7 @@ async def get_formulas(call):
 
 @dp.message_handler(commands=['start'])
 async def start_message(message):
-    await message.answer('Привет! Я бот помогающий твоему здоровью.')
+    await message.answer('Привет! Я бот помогающий твоему здоровью.', reply_markup=kb)
 
 
 @dp.message_handler(text='Информация!')
